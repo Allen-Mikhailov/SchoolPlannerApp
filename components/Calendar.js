@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, StyleSheet, Text, View, SectionList, SafeAreaView, StatusBar  } from 'react-native';
+import { Button, StyleSheet, Text, View, SectionList, SafeAreaView, StatusBar, Dimensions   } from 'react-native';
 
 import { getJsonData, storeData } from '../modules/storage';
 
 const remindersKey = "Reminders-0.0"
+
+var height = Dimensions.get('window').height;
+var width = Dimensions.get('window').width;
 
 // const data = [
 //     {
@@ -16,22 +19,27 @@ const remindersKey = "Reminders-0.0"
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: "100%",
         alignItems: "left",
-        paddingTop: StatusBar.currentHeight,
-        marginHorizontal: 16
+        marginVertical: 16,
       },
     line: {
-        
+        paddingTop: 1,
+        width: "100%",
+        backgroundColor: "#aaa",
     },
     item: {
-        backgroundColor: "#fff",
         marginVertical: 3,
-        color: "#2a5996"
+        width: "100%",
+        color: "#2a5996",
+        width: "100%"
       },
       header: {
+        width: "100%",
         fontSize: 20,
-        textAlign: "center",
+        color: "#000",
         backgroundColor: "#fff",
+        fontWeight: 'bold'
       },
       title: {
         fontSize: 15,
@@ -44,6 +52,14 @@ const Item = ({ title }) => (
       <Text style={styles.title}>{title}</Text>
     </View>
   );
+
+const Header = ({ title }) => (
+  <View style={styles.item}>
+    <View style={styles.line}/>
+    <Text style={styles.header}>Test</Text>
+    <View style={styles.line}/>
+  </View>
+)
 
 export default function Calendar()
 {
@@ -61,13 +77,11 @@ export default function Calendar()
 
     return (
         <SafeAreaView style={styles.container}>
-             <SectionList
+             <SectionList style={{width: "100%"}}
                 sections={data}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => <Item title={item} />}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.header}>{title}</Text>
-                )}
+                renderSectionHeader={({ section: { title } }) => <Header title={title} />}
             />
         </SafeAreaView>
     );
