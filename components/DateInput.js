@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
 export default function(props)
 {
     const [year, setYear ] = useState("2022")
-    const [day, setDay ] = useState()
-    const [month, setMonth ] = useState()
+    const [day, setDay ] = useState(1)
+    const [month, setMonth ] = useState(1)
 
     function dataUpdate()
     {
@@ -48,6 +48,12 @@ export default function(props)
         setYear(parseInt(value) ? (Math.max(parseInt(value), 0)).toString() : "")
         dataUpdate()
     }
+
+    useEffect(() => {
+        const currentDate = new Date()
+        setMonth(currentDate.getMonth()+1)
+        dataUpdate()
+    }, [])
 
     return <View style={styles.dataContainer}>
         <TextInput
