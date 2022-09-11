@@ -93,20 +93,22 @@ function AddItemMenu(props)
   function AddTask()
   {
     const objDate = new Date(2022, 1, 1)//new Date(date.year, date.month, date.day)
-    const dateString = objDate.toISOString()
+    const dateString = objDate.getMonth()+"/"+objDate.getDay()+"/"+objDate.getFullYear()
     const data = JSON.parse(JSON.stringify(props.data));
+
+
+
     if (data[dateString])
-      data[dateString].data.push("PleaesWork")
+      data[dateString].data.push(task)
     else
       data[dateString] = {
         title: dateString,
-        data: ["PleaesWork"]
+        data: [task]
       }
     
-      // data["Test"] = [5]
+      
     props.setData(data)
-
-    // props.setData()
+    props.setMenuOpen(false)
   }
 
   return <View style={styles.addItemContainer}>
@@ -171,8 +173,9 @@ export default function Calendar()
                   renderSectionHeader={({ section: { title } }) => <Header title={title} />}
               />
           </View>
-          {menuOpen == "AddItem" && <AddItemMenu setData={setRawData} data={rawdata}/>}
+          {menuOpen == "AddItem" && <AddItemMenu setData={setRawData} data={rawdata} setMenuOpen={setMenuOpen}/>}
           <Button title={"Add Item"} onPress={addToData}/>
+          <Button title={"wipe"} onPress={() => setRawData({})}/>
           <Text>{debug}</Text>
         </SafeAreaView>
     );
